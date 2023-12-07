@@ -70,6 +70,12 @@
     <Compile Include="Form4.Designer.cs">
       <DependentUpon>Form4.cs</DependentUpon>
     </Compile>
+    <Compile Include="Form5.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form5.Designer.cs">
+      <DependentUpon>Form5.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
@@ -83,6 +89,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form4.resx">
       <DependentUpon>Form4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form5.resx">
+      <DependentUpon>Form5.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -211,6 +220,54 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\MYHP100.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\optionbutton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\main.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\OPTION1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\button6.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TTI5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TTI6.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TTI8.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TTI10.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\button8.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\main_Start_1920.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\main_Start_1440.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TTI1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TTI2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TTI3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TTI4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TTI7.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

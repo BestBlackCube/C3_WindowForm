@@ -30,6 +30,7 @@ namespace C3_Form_testing
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -553,11 +554,11 @@ namespace C3_Form_testing
             // button13
             // 
             this.button13.Font = new System.Drawing.Font("굴림", 8F, System.Drawing.FontStyle.Bold);
+            this.button13.Image = global::C3_Form_testing.Properties.Resources.optionbutton;
             this.button13.Location = new System.Drawing.Point(1617, 12);
             this.button13.Name = "button13";
             this.button13.Size = new System.Drawing.Size(55, 55);
             this.button13.TabIndex = 73;
-            this.button13.Text = "톱니바퀴 그림";
             this.button13.UseVisualStyleBackColor = true;
             this.button13.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Setting_button);
             // 
@@ -808,7 +809,7 @@ namespace C3_Form_testing
             this.button20.Size = new System.Drawing.Size(160, 90);
             this.button20.TabIndex = 19;
             this.button20.TabStop = false;
-            this.button20.Text = "카트 뽑기";
+            this.button20.Text = "카드 뽑기";
             this.button20.UseVisualStyleBackColor = true;
             this.button20.MouseClick += new System.Windows.Forms.MouseEventHandler(this.MyhandCardAdd_button);
             // 
@@ -980,8 +981,8 @@ namespace C3_Form_testing
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSize = true;
             this.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.BackgroundImage = global::C3_Form_testing.Properties.Resources.main;
             this.ClientSize = new System.Drawing.Size(1904, 1041);
             this.Controls.Add(this.button13);
             this.Controls.Add(this.label34);
@@ -1045,11 +1046,14 @@ namespace C3_Form_testing
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.DoubleBuffered = true;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MinimumSize = new System.Drawing.Size(1262, 562);
             this.Name = "Form1";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "전투 페이지";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.Click += new System.EventHandler(this.Form1_Click);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox11)).EndInit();
