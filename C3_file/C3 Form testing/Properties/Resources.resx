@@ -121,14 +121,11 @@
   <data name="MonsterCard10" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MonsterCard10.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="MagicCard3" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MagicCard3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="MonsterCard2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MonsterCard2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="MagicCard1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MagicCard1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="MagicCard4" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MagicCard4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="nullCard" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\nullCard.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="MonsterCard5" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MonsterCard5.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -136,20 +133,14 @@
   <data name="MonsterCard7" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MonsterCard7.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="MonsterCard2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MonsterCard2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="MagicCard_ATK1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MagicCard_ATK1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="MagicCard5" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MagicCard5.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="MagicCard_HP2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MagicCard_HP2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="MagicCard7" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MagicCard7.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="MagicCard9" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MagicCard9.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="MagicCard2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MagicCard2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="MagicCard_ATK2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MagicCard_ATK2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="MonsterCard4" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MonsterCard4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -160,11 +151,11 @@
   <data name="MonsterCard8" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MonsterCard8.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="MagicCard6" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MagicCard6.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="MagicCard_HP1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MagicCard_HP1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="MagicCard8" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MagicCard8.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="MagicCard_HP3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MagicCard_HP3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="MonsterCard1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MonsterCard1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -175,7 +166,7 @@
   <data name="MonsterCard9" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MonsterCard9.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="MagicCard10" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MagicCard10.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="MagicCard_ATK3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MagicCard_ATK3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

@@ -11,53 +11,34 @@ using System.Windows.Forms;
 namespace C3_Form_testing
 {
     public partial class Form2 : Form
-    {
-        //Form2 form2form;
-        public Form2(Form1 form1)
+    {// Form1 F1값을 만들어 Form1의 정보를 불러옴
+        private Form1 F1;
+        public int GameCount;
+        private void button1_Click(object sender, MouseEventArgs e)
+        {// 11 - 17 GameCount의 값을 설정하여 난이도 변경 함 F1.GameLV의 값을 대입시킴
+            GameCount = 1;
+            F1.GameLV = GameCount;
+            F1.Show();
+            Close();
+        }
+        private void button2_Click(object sender, MouseEventArgs e)
         {
-            _form1 = form1;
+            GameCount = 2;
+            F1.GameLV = GameCount;
+            F1.Show();
+            Close();
+        }
+        private void button3_Click(object sender, MouseEventArgs e)
+        {
+            GameCount = 3;
+            F1.GameLV = GameCount;
+            F1.Show();
+            Close();
+        }
+        public Form2(Form1 f1)
+        {
+            F1 = f1;
             InitializeComponent();
-        }
-
-        private Form1 _form1;
-        private int Cardkeycode;
-        public int Form1CardKeycode
-        {
-            get { return Cardkeycode; }
-            set { Cardkeycode = value; }
-        }
-        struct Keycode
-        {
-            public Image MonsterCardcode;
-            public int Cardcode;
-        }
-        Keycode[] keycode = new Keycode[11];
-
-        public void Form2Card()
-        {
-            keycode[0].MonsterCardcode = Properties.Resources.MonsterCard1;
-            keycode[1].MonsterCardcode = Properties.Resources.MonsterCard2;
-            keycode[2].MonsterCardcode = Properties.Resources.MonsterCard3;
-            keycode[3].MonsterCardcode = Properties.Resources.MonsterCard4;
-            keycode[4].MonsterCardcode = Properties.Resources.MonsterCard5;
-            keycode[5].MonsterCardcode = Properties.Resources.MonsterCard6;
-            keycode[6].MonsterCardcode = Properties.Resources.MonsterCard7;
-            keycode[7].MonsterCardcode = Properties.Resources.MonsterCard8;
-            keycode[8].MonsterCardcode = Properties.Resources.MonsterCard9;
-            keycode[9].MonsterCardcode = Properties.Resources.MonsterCard10;
-            for (int i = 0; i <= 9; i++)
-            {
-                keycode[i].Cardcode = i;
-            }
-        }
-
-        private void Form_Load(object sender, EventArgs e)
-        {
-            int code = Form1CardKeycode;
-            for (int i = 0; i <= 9; i++)
-            {
-                
-            }
         }
     }
 }

@@ -18,10 +18,10 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <WarningLevel>0</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -90,7 +90,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\MonsterCard9.png" />
+    <None Include="Resources\nullCard.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\MonsterCard1.png" />
@@ -114,40 +114,31 @@
     <None Include="Resources\MonsterCard7.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\MonsterCard9.png" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="Resources\MonsterCard8.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\MonsterCard10.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\MagicCard1.png" />
+    <None Include="Resources\MagicCard_HP1.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\MagicCard2.png" />
+    <None Include="Resources\MagicCard_HP2.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\MagicCard3.png" />
+    <None Include="Resources\MagicCard_HP3.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\MagicCard4.png" />
+    <None Include="Resources\MagicCard_ATK1.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\MagicCard5.png" />
+    <None Include="Resources\MagicCard_ATK2.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\MagicCard6.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\MagicCard7.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\MagicCard8.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\MagicCard9.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\MagicCard10.png" />
+    <None Include="Resources\MagicCard_ATK3.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
