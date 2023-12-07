@@ -13,11 +13,14 @@ using System.Windows.Forms.VisualStyles;
 using System.Threading; // 지연시간 추가
 using System.Timers;
 using System.Reflection.Emit;
+using System.Security.Permissions;
 
 namespace C3_Form_testing
 {
     public partial class Form1 : Form
     {
+        public int Delay_Delete = 0;
+        Form5 _Form5;
         private static DateTime Delay(int ms)
         {
             DateTime ThisMoment = DateTime.Now;
@@ -27,15 +30,20 @@ namespace C3_Form_testing
             while (AfterWards >= ThisMoment)
             { System.Windows.Forms.Application.DoEvents(); ThisMoment = DateTime.Now; }
             return DateTime.Now;
-        }
+        }// 11 - 23 전투 딜레이를 만들어서 Form4에서 받아오는 Delay_Delete값이 1일경우 무시하게 만듦
+        private void Delay05s() { if (Delay_Delete == 0) { Delay(500); } }
+        private void Delay07s() { if (Delay_Delete == 0) { Delay(700); } }
+        private void Delay10s() { if (Delay_Delete == 0) { Delay(1000); } }
+        private void Delay15s() { if (Delay_Delete == 0) { Delay(1500); } }
         Random HP_point = new Random(); Random ATK_point = new Random();
         Random Card_Number = new Random(); Random Magic_point = new Random();
-        public int MyHp = 50, AiHp = 50, DeleteCardcount = 3;
+        public int MyHp = 50, AiHp = 50, DeleteCardcount = 3, GameLV, BattleRectangle = 0,
+                   BattlePhase = 0;
         public int Magicbool1 = 0, Magicbool2 = 0, Magicbool3 = 0, Magicbool4 = 0, Magicbool5 = 0,
                    Handbool1 = 0, Handbool2 = 0, Handbool3 = 0, Handbool4 = 0, Handbool5 = 0,
                    Fildbool1 = 0, Fildbool2 = 0, Fildbool3 = 0, Fildbool4 = 0, Fildbool5 = 0,
                    AiFildbool1 = 0, AiFildbool2 = 0, AiFildbool3 = 0, AiFildbool4 = 0, AiFildbool5 = 0;
-        public Image NullCard = Properties.Resources.nullCard;
+        public Image NullCard = Properties.Resources.nullslot;
         struct Information_Card
         { public String Info_Hand, Info_Fild; }
         struct MyCardstatus
@@ -49,13 +57,116 @@ namespace C3_Form_testing
         struct Card
         {
             public int ATK, AiATK, HP, AiHP, keycode, Aikeycode, MagicATK, MagicHP;
-            public Image MonsterCardcode, AiMonsterCardcode, MagicCardcode;
+            public Image MonsterCardcode, AiMonsterCardcode, MagicCardcode_HP, MagicCardcode_ATK;
         }
         Card[] CardDB = new Card[11]; Information_Card[] Info_Card = new Information_Card[6];
         MyCardstatus[] Mycardstatus = new MyCardstatus[6]; 
         AiCardstatus[] Aicardstatus = new AiCardstatus[6];
         MyFildCardstatus[] MyFild_status = new MyFildCardstatus[6];
         MagicCardstsatus[] Magicstatus = new MagicCardstsatus[6];
+        private void Form1_Load(object sender, EventArgs e)
+        {// 11 - 17 폼연결 프로토타입 ShowDialog가 아닌 Show로 하면 Form1과 2가 실행됨
+            //Form2 F2 = new Form2(this, true); F2.Owner = this; F2.Show();
+            label31.Text = "MyHp : 50"; label32.Text = "AiHp : 50"; textBox1.MaxLength = 100;
+        }
+
+        public void setSize(Boolean sizeInfo)
+        {
+            if (sizeInfo)
+            {
+                this.Size = new Size(1920, 1080);
+                pictureBox1.Location = new Point(569, 360);
+                pictureBox2.Location = new Point(745, 360);
+                pictureBox3.Location = new Point(920, 360);
+                pictureBox4.Location = new Point(1096, 360);
+                pictureBox5.Location = new Point(1273, 360);
+                pictureBox6.Location = new Point(569, 81);
+                pictureBox7.Location = new Point(745, 81);
+                pictureBox8.Location = new Point(920, 81);
+                pictureBox9.Location = new Point(1096, 81);
+                pictureBox10.Location = new Point(1273, 81);
+                pictureBox11.Location = new Point(177, 510);
+
+                button1.Location = new Point(569, 655);
+                button2.Location = new Point(745, 655);
+                button3.Location = new Point(920, 655);
+                button4.Location = new Point(1096, 655);
+                button5.Location = new Point(1273, 655);
+                button6.Location = new Point(569, 594);
+                button7.Location = new Point(745, 594);
+                button8.Location = new Point(920, 594);
+                button9.Location = new Point(1096, 594);
+                button10.Location = new Point(1273, 594);
+                button11.Location = new Point(1454, 437);
+                button12.Location = new Point(1454, 787);
+                button20.Location = new Point(1454, 655);
+                button13.Location = new Point(1617, 12);
+
+                label31.Location = new Point(1516, 150);
+                label32.Location = new Point(1516, 201);
+
+                textBox1.Location = new Point(176, 81);
+                textBox1.Size = new Size(368, 406);
+
+                textBox2.Location = new Point(342, 510);
+                textBox2.Size = new Size(202,222);
+            }
+            else
+            {
+                this.Size = new Size(1440, 900);
+                pictureBox1.Location = new Point(355, 281);
+                pictureBox2.Location = new Point(531, 281);
+                pictureBox3.Location = new Point(706, 281);
+                pictureBox4.Location = new Point(882, 281);
+                pictureBox5.Location = new Point(1059, 281);
+                pictureBox6.Location = new Point(355, 26);
+                pictureBox7.Location = new Point(531, 26);
+                pictureBox8.Location = new Point(706, 26);
+                pictureBox9.Location = new Point(882, 26);
+                pictureBox10.Location = new Point(1059, 26);
+                pictureBox11.Location = new Point(21, 496);
+
+                button1.Location = new Point(355, 577);
+                button2.Location = new Point(531, 577);
+                button3.Location = new Point(706, 577);
+                button4.Location = new Point(882, 577);
+                button5.Location = new Point(1059, 577);
+                button6.Location = new Point(355, 516);
+                button7.Location = new Point(531, 516);
+                button8.Location = new Point(706, 516);
+                button9.Location = new Point(882, 516);
+                button10.Location = new Point(1059, 516);
+                button11.Location = new Point(1240, 423);
+                button12.Location = new Point(1240, 658);
+                button13.Location = new Point(1345, 26);
+                button20.Location = new Point(1240, 554);
+
+                label31.Location = new Point(1236, 152);
+                label32.Location = new Point(1236, 203);
+
+                textBox1.Location = new Point(21, 26);
+                textBox1.Size = new Size(309, 448);
+                textBox2.Location = new Point(190, 496);
+                textBox2.Size = new Size(140, 222);
+            }
+        }
+        private void Form1_Click(object sender, EventArgs e)
+        {
+            if(BattlePhase == 0)
+            {
+                textBox2.Text = ""; pictureBox11.Image = NullCard; label33.Text = ""; label34.Text = "";
+                if (button12.Visible == false)
+                {
+                    button12.Visible = true; textBox1.Text = "";
+                    button6.Visible = true; button6.Text = "필드 소환";
+                    button7.Visible = true; button7.Text = "필드 소환";
+                    button8.Visible = true; button8.Text = "필드 소환";
+                    button9.Visible = true; button9.Text = "필드 소환";
+                    button10.Visible = true; button10.Text = "필드 소환";
+                }
+                buttonTrue_False(); Card_FildFull_Fildnull();
+            }
+        }
         public void MyCardcodesetting()
         {
             CardDB[0].MonsterCardcode = Properties.Resources.MonsterCard1;
@@ -68,21 +179,23 @@ namespace C3_Form_testing
             CardDB[7].MonsterCardcode = Properties.Resources.MonsterCard8;
             CardDB[8].MonsterCardcode = Properties.Resources.MonsterCard9;
             CardDB[9].MonsterCardcode = Properties.Resources.MonsterCard10;
+            // 11 - 20 HP, ATK 2개로 1~5까지 줄여서 3가지로 나눔 0, 6, 7, 8, 9는 사용하지 않음
+            CardDB[1].MagicCardcode_HP = Properties.Resources.MagicCard_HP1;
+            CardDB[2].MagicCardcode_HP = Properties.Resources.MagicCard_HP1;
+            CardDB[3].MagicCardcode_HP = Properties.Resources.MagicCard_HP2;
+            CardDB[4].MagicCardcode_HP = Properties.Resources.MagicCard_HP2;
+            CardDB[5].MagicCardcode_HP = Properties.Resources.MagicCard_HP3;
+            CardDB[1].MagicCardcode_ATK = Properties.Resources.MagicCard_ATK1;
+            CardDB[2].MagicCardcode_ATK = Properties.Resources.MagicCard_ATK1;
+            CardDB[3].MagicCardcode_ATK = Properties.Resources.MagicCard_ATK2;
+            CardDB[4].MagicCardcode_ATK = Properties.Resources.MagicCard_ATK2;
+            CardDB[5].MagicCardcode_ATK = Properties.Resources.MagicCard_ATK3;
 
-            CardDB[0].MagicCardcode = Properties.Resources.MagicCard1;
-            CardDB[1].MagicCardcode = Properties.Resources.MagicCard2;
-            CardDB[2].MagicCardcode = Properties.Resources.MagicCard3;
-            CardDB[3].MagicCardcode = Properties.Resources.MagicCard4;
-            CardDB[4].MagicCardcode = Properties.Resources.MagicCard5;
-            CardDB[5].MagicCardcode = Properties.Resources.MagicCard6;
-            CardDB[6].MagicCardcode = Properties.Resources.MagicCard7;
-            CardDB[7].MagicCardcode = Properties.Resources.MagicCard8;
-            CardDB[8].MagicCardcode = Properties.Resources.MagicCard9;
-            CardDB[9].MagicCardcode = Properties.Resources.MagicCard10;
             for (int i = 0; i <= 9; i++)
             {
+                if(i <= 5) { CardDB[i].MagicATK = i; CardDB[i].MagicHP = i; }
                 CardDB[i].ATK = ATK_point.Next(1, 7); CardDB[i].HP = HP_point.Next(1, 10);
-                CardDB[i].MagicATK = i; CardDB[i].keycode = i; CardDB[i].MagicHP = i;
+                CardDB[i].keycode = i;
             }
         }
         public void AiCardcodesetting()
@@ -98,11 +211,88 @@ namespace C3_Form_testing
             CardDB[8].AiMonsterCardcode = Properties.Resources.MonsterCard9;
             CardDB[9].AiMonsterCardcode = Properties.Resources.MonsterCard10;
             for (int i = 0; i <= 9; i++)
-            {
-                CardDB[i].AiATK = ATK_point.Next(1, 7); CardDB[i].AiHP = HP_point.Next(1, 10);
-                CardDB[i].Aikeycode = i;
+            {// 11 - 17 폼연결 프로토타입 : GameLV의 값을 Form2에서 받아서 대입시킴
+                if(GameLV == 1)
+                {
+                    CardDB[i].AiATK = ATK_point.Next(1, 6); CardDB[i].AiHP = HP_point.Next(1, 7);
+                    CardDB[i].Aikeycode = i;
+                }
+                else if(GameLV == 2)
+                {
+                    CardDB[i].AiATK = ATK_point.Next(3, 9); CardDB[i].AiHP = HP_point.Next(3, 11);
+                    CardDB[i].Aikeycode = i;
+                }
+                else if(GameLV == 3)
+                {
+                    CardDB[i].AiATK = ATK_point.Next(5, 11); CardDB[i].AiHP = HP_point.Next(5, 16);
+                    CardDB[i].Aikeycode = i;
+                }
+               
             }
         }
+        private void Setting_button(object sender, MouseEventArgs e)
+        {
+            Form4 _Form4 = new Form4(this,_Form5);
+            _Form4.ShowDialog();
+        }
+
+        public void ChangeFont(FontFamily Nfont)
+        {
+            //6,7,8,9,10,11,20,t1,t2Font font = textBox1.Font;
+            Font Bfont = button6.Font;
+            button6.Font = new Font(Nfont, Bfont.Size, Bfont.Style);
+            button7.Font = new Font(Nfont, Bfont.Size, Bfont.Style);
+            button8.Font = new Font(Nfont, Bfont.Size, Bfont.Style);
+            button9.Font = new Font(Nfont, Bfont.Size, Bfont.Style);
+            button10.Font = new Font(Nfont, Bfont.Size, Bfont.Style);
+            Bfont = button11.Font;
+            button11.Font = new Font(Nfont, Bfont.Size, Bfont.Style);
+            button12.Font = new Font(Nfont, Bfont.Size, Bfont.Style);
+            button20.Font = new Font(Nfont, Bfont.Size, Bfont.Style);
+            Bfont = textBox1.Font;
+            textBox1.Font = new Font(Nfont, Bfont.Size, Bfont.Style);
+            textBox2.Font = new Font(Nfont, Bfont.Size, Bfont.Style);
+
+
+            // 텍스트박스 컨트롤의 글꼴 속성을 설정합니다.
+
+        }
+
+        private void HP_bar_Change()
+        {// 11 - 23 전투시 HP 변화
+            if (MyHp == 50) { label31.Image = Properties.Resources.MYHP100; }
+            if (MyHp <= 49) { label31.Image = Properties.Resources.MYHP70; }
+            if (MyHp <= 25) { label31.Image = Properties.Resources.MYHP50; }
+            if (MyHp <= 15) { label31.Image = Properties.Resources.MYHP30; }
+            if (MyHp <= 5) { label31.Image = Properties.Resources.MYHP10; }
+            if (MyHp <= 0) { label31.Image = Properties.Resources.MYHP00; }
+
+            if (AiHp == 50) { label32.Image = Properties.Resources.AIHP100; }
+            if (AiHp <= 49) { label32.Image = Properties.Resources.AIHP70; }
+            if (AiHp <= 25) { label32.Image = Properties.Resources.AIHP50; }
+            if (AiHp <= 15) { label32.Image = Properties.Resources.AIHP30; }
+            if (AiHp <= 5) { label32.Image = Properties.Resources.AIHP10; }
+            if (AiHp <= 0) { label32.Image = Properties.Resources.AIHP00; }
+        }
+
+        private void Form1_Leave(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            DialogResult result = MessageBox.Show("정말 종료하시겠습니까?", "게임 종료", MessageBoxButtons.YesNo);
+            if (result != DialogResult.Yes)
+            {
+                e.Cancel = true; // 종료를 취소하도록 설정
+            }
+            else
+            {
+                _Form5.Close();
+            }
+        }
+
         public void buttonTrue_False()
         {
             if (button1.Enabled == false) { button1.Enabled = true; }
@@ -143,57 +333,47 @@ namespace C3_Form_testing
             if (Fildbool5 == 1) { button10.Enabled = true; button10.Text = "사용 하기"; }
             else { button10.Visible = false; }
         }
-        private void Form1_Load(object sender, EventArgs e)
-        { label31.Text = "MyHp : 50"; label32.Text = "AiHp : 50"; textBox1.MaxLength = 100; }
-        private void Form1_Click(object sender, EventArgs e)
-        {
-            textBox2.Text = ""; pictureBox11.Image = NullCard; label33.Text = ""; label34.Text = "";
-            if (button12.Visible == false)
-            {
-                button12.Visible = true; textBox1.Text = ""; 
-                button6.Visible = true; button6.Text = "필드 소환";
-                button7.Visible = true; button7.Text = "필드 소환";
-                button8.Visible = true; button8.Text = "필드 소환";
-                button9.Visible = true; button9.Text = "필드 소환";
-                button10.Visible = true; button10.Text = "필드 소환";
-            }
-            buttonTrue_False(); Card_FildFull_Fildnull();
-        }
         private void MyhandCardAdd_button(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
                 button20.Enabled = false; MyCardcodesetting();
-                int mycard1 = Card_Number.Next(0, 9), mycard2 = Card_Number.Next(0, 9),
-                    mycard3 = Card_Number.Next(0, 9), mycard4 = Card_Number.Next(0, 9),
-                    mycard5 = Card_Number.Next(0, 9), CardChoice1 = Card_Number.Next(0, 9),
-                    CardChoice2 = Card_Number.Next(0, 9), CardChoice3 = Card_Number.Next(0, 9),
-                    CardChoice4 = Card_Number.Next(0, 9), CardChoice5 = Card_Number.Next(0, 9);
+                int mycard1 = Card_Number.Next(0, 10), mycard2 = Card_Number.Next(0, 10),
+                    mycard3 = Card_Number.Next(0, 10), mycard4 = Card_Number.Next(0, 10),
+                    mycard5 = Card_Number.Next(0, 10), CardChoice1 = Card_Number.Next(0, 10),
+                    CardChoice2 = Card_Number.Next(0, 10), CardChoice3 = Card_Number.Next(0, 10),
+                    CardChoice4 = Card_Number.Next(0, 10), CardChoice5 = Card_Number.Next(0, 10);
                 for (int j = 0; j <= 9; j++)
                 {
                     if (Handbool1 == 0 && CardDB[j].keycode == mycard1)
                     {
-                        if (CardChoice1 <= 6)
+                        if (CardChoice1 <= 4)
                         {
                             button1.Image = CardDB[j].MonsterCardcode; Handbool1 = 1;
                             label1.Text = "" + CardDB[j].HP; label2.Text = "" + CardDB[j].ATK;
                             Mycardstatus[0].MyHP_status = CardDB[j].HP; Mycardstatus[0].MyATK_status = CardDB[j].ATK;
                         }
-                        if(CardChoice1 >= 7)
+                        if(CardChoice1 >= 5)
                         {// 11 - 15 : 마법카드 체력, 공격력 1~5 고정시켜 출력하기
-                            int MagicChoice1 = Magic_point.Next(0, 9), HPATK_up = Magic_point.Next(1, 5);
+                            int MagicChoice1 = Magic_point.Next(0, 9), HPATK_up = Magic_point.Next(1, 6);
                             if(MagicChoice1 <= 4)
-                            {
-                                button1.Image = CardDB[HPATK_up].MagicCardcode; Handbool1 = 1; Magicbool1 = 1;
+                            {// 11 - 20 마법카드 이미지를 1~5까지 범위를 지정해 알맞는 이미지를 가져옴
+                                if(HPATK_up <= 2) { button1.Image = CardDB[HPATK_up].MagicCardcode_ATK; }
+                                if (HPATK_up <= 4 && HPATK_up > 2) { button1.Image = CardDB[HPATK_up].MagicCardcode_ATK; }
+                                if (HPATK_up == 5) { button1.Image = CardDB[HPATK_up].MagicCardcode_ATK; }
+                                Handbool1 = 1; Magicbool1 = 1;
                                 Magicstatus[0].Magic_status = CardDB[HPATK_up].MagicATK;
                                 label1.Text = ""; label2.Text = "" + CardDB[HPATK_up].MagicATK;
                                 Info_Card[0].Info_Hand += "\r\n공격력 증가 : " + CardDB[HPATK_up].MagicATK;
                             }
                             if(MagicChoice1 >= 5)
                             {
-                                button1.Image = CardDB[HPATK_up].MagicCardcode; Handbool1 = 1; Magicbool1 = 2;
+                                if (HPATK_up <= 2) { button1.Image = CardDB[HPATK_up].MagicCardcode_HP; }
+                                if (HPATK_up <= 4 && HPATK_up > 2) { button1.Image = CardDB[HPATK_up].MagicCardcode_HP; }
+                                if (HPATK_up == 5) { button1.Image = CardDB[HPATK_up].MagicCardcode_HP; }
+                                Handbool1 = 1; Magicbool1 = 2;
                                 Magicstatus[0].Magic_status = CardDB[HPATK_up].MagicHP;
-                                label1.Text = "" + CardDB[HPATK_up].MagicHP; label2.Text = "";
+                                label1.Text = ""; label2.Text = "" + CardDB[HPATK_up].MagicHP;
                                 Info_Card[0].Info_Hand += "\r\n체력 증가 : " + CardDB[HPATK_up].MagicHP;
                             }
                             
@@ -201,108 +381,132 @@ namespace C3_Form_testing
                     }
                     if (Handbool2 == 0 && CardDB[j].keycode == mycard2)
                     {
-                        if(CardChoice2 <= 6)
+                        if(CardChoice2 <= 4)
                         {
                             button2.Image = CardDB[j].MonsterCardcode; Handbool2 = 1;
                             label3.Text = "" + CardDB[j].HP; label4.Text = "" + CardDB[j].ATK;
                             Mycardstatus[1].MyHP_status = CardDB[j].HP; Mycardstatus[1].MyATK_status = CardDB[j].ATK;
                         }
-                        if(CardChoice2 >= 7)
+                        if(CardChoice2 >= 5)
                         {
                             int MagicChoice2 = Magic_point.Next(0, 9), HPATK_up = Magic_point.Next(1, 5);
                             if(MagicChoice2 <= 4)
                             {
-                                button2.Image = CardDB[HPATK_up].MagicCardcode; Handbool2 = 1; Magicbool2 = 1;
+                                if (HPATK_up <= 2) { button2.Image = CardDB[HPATK_up].MagicCardcode_ATK; }
+                                if (HPATK_up <= 4 && HPATK_up > 2) { button2.Image = CardDB[HPATK_up].MagicCardcode_ATK; }
+                                if (HPATK_up == 5) { button2.Image = CardDB[HPATK_up].MagicCardcode_ATK; }
+                                Handbool2 = 1; Magicbool2 = 1;
                                 Magicstatus[1].Magic_status = CardDB[HPATK_up].MagicATK;
                                 label3.Text = ""; label4.Text = "" + CardDB[HPATK_up].MagicATK;
                                 Info_Card[1].Info_Hand += "\r\n공격력 증가 : " + CardDB[HPATK_up].MagicATK;
                             }
                             if(MagicChoice2 >= 5)
                             {
-                                button2.Image = CardDB[HPATK_up].MagicCardcode; Handbool2 = 1; Magicbool2 = 2;
+                                if (HPATK_up <= 2) { button2.Image = CardDB[HPATK_up].MagicCardcode_HP; }
+                                if (HPATK_up <= 4 && HPATK_up > 2) { button2.Image = CardDB[HPATK_up].MagicCardcode_HP; }
+                                if (HPATK_up == 5) { button2.Image = CardDB[HPATK_up].MagicCardcode_HP; }
+                                Handbool2 = 1; Magicbool2 = 2;
                                 Magicstatus[1].Magic_status = CardDB[HPATK_up].MagicHP;
-                                label3.Text = "" + CardDB[HPATK_up].MagicHP; label4.Text = "";
+                                label3.Text = "" ; label4.Text = "" + CardDB[HPATK_up].MagicHP;
                                 Info_Card[1].Info_Hand += "\r\n체력 증가 : " + CardDB[HPATK_up].MagicHP;
                             }
                         }
                     }
                     if (Handbool3 == 0 && CardDB[j].keycode == mycard3)
                     {
-                        if(CardChoice3 <= 6)
+                        if(CardChoice3 <= 4)
                         {
                             button3.Image = CardDB[j].MonsterCardcode; Handbool3 = 1;
                             label5.Text = "" + CardDB[j].HP; label6.Text = "" + CardDB[j].ATK;
                             Mycardstatus[2].MyHP_status = CardDB[j].HP; Mycardstatus[2].MyATK_status = CardDB[j].ATK;
                         }
-                        if(CardChoice3 >= 7)
+                        if(CardChoice3 >= 5)
                         {
-                            int MagicChoice3 = Magic_point.Next(0, 9), HPATK_up = Magic_point.Next(1, 5);
+                            int MagicChoice3 = Magic_point.Next(0, 9), HPATK_up = Magic_point.Next(1, 6);
                             if (MagicChoice3 <= 4)
                             {
-                                button3.Image = CardDB[HPATK_up].MagicCardcode; Handbool3 = 1; Magicbool3 = 1;
+                                if (HPATK_up <= 2) { button3.Image = CardDB[HPATK_up].MagicCardcode_ATK; }
+                                if (HPATK_up <= 4 && HPATK_up > 2) { button3.Image = CardDB[HPATK_up].MagicCardcode_ATK; }
+                                if (HPATK_up == 5) { button3.Image = CardDB[HPATK_up].MagicCardcode_ATK; }
+                                Handbool3 = 1; Magicbool3 = 1;
                                 Magicstatus[2].Magic_status = CardDB[HPATK_up].MagicATK;
                                 label5.Text = ""; label6.Text = "" + CardDB[HPATK_up].MagicATK;
                                 Info_Card[2].Info_Hand += "\r\n공격력 증가 : " + CardDB[HPATK_up].MagicATK;
                             }
                             if(MagicChoice3 >= 5)
                             {
-                                button3.Image = CardDB[HPATK_up].MagicCardcode; Handbool3 = 1; Magicbool3 = 2;
+                                if (HPATK_up <= 2) { button3.Image = CardDB[HPATK_up].MagicCardcode_HP; }
+                                if (HPATK_up <= 4 && HPATK_up > 2) { button3.Image = CardDB[HPATK_up].MagicCardcode_HP; }
+                                if (HPATK_up == 5) { button3.Image = CardDB[HPATK_up].MagicCardcode_HP; }
+                                Handbool3 = 1; Magicbool3 = 2;
                                 Magicstatus[2].Magic_status = CardDB[HPATK_up].MagicHP;
-                                label5.Text = "" + CardDB[HPATK_up].MagicHP; label6.Text = "";
+                                label5.Text = ""; label6.Text = "" + CardDB[HPATK_up].MagicHP;
                                 Info_Card[2].Info_Hand += "\r\n체력 증가 : " + CardDB[HPATK_up].MagicHP;
                             }
                         }
                     }
                     if (Handbool4 == 0 && CardDB[j].keycode == mycard4)
                     {
-                        if (CardChoice4 <= 6)
+                        if (CardChoice4 <= 4)
                         {
                             button4.Image = CardDB[j].MonsterCardcode; Handbool4 = 1;
                             label7.Text = "" + CardDB[j].HP; label8.Text = "" + CardDB[j].ATK;
                             Mycardstatus[3].MyHP_status = CardDB[j].HP; Mycardstatus[3].MyATK_status = CardDB[j].ATK;
                         }
-                        if(CardChoice4 >= 7)
+                        if(CardChoice4 >= 5)
                         {
-                            int MagicChoice4 = Magic_point.Next(0, 9), HPATK_up = Magic_point.Next(1, 5);
+                            int MagicChoice4 = Magic_point.Next(0, 9), HPATK_up = Magic_point.Next(1, 6);
                             if (MagicChoice4 <= 4)
                             {
-                                button4.Image = CardDB[HPATK_up].MagicCardcode; Handbool4 = 1; Magicbool4 = 1;
+                                if (HPATK_up <= 2) { button4.Image = CardDB[HPATK_up].MagicCardcode_ATK; }
+                                if (HPATK_up <= 4 && HPATK_up > 2) { button4.Image = CardDB[HPATK_up].MagicCardcode_ATK; }
+                                if (HPATK_up == 5) { button4.Image = CardDB[HPATK_up].MagicCardcode_ATK; }
+                                Handbool4 = 1; Magicbool4 = 1;
                                 Magicstatus[3].Magic_status = CardDB[HPATK_up].MagicATK;
                                 label7.Text = ""; label8.Text = "" + CardDB[HPATK_up].MagicATK;
                                 Info_Card[3].Info_Hand += "\r\n공격력 증가 : " + CardDB[HPATK_up].MagicATK;
                             }
                             if(MagicChoice4 >= 5)
                             {
-                                button4.Image = CardDB[HPATK_up].MagicCardcode; Handbool4 = 1; Magicbool4 = 2;
+                                if (HPATK_up <= 2) { button4.Image = CardDB[HPATK_up].MagicCardcode_HP; }
+                                if (HPATK_up <= 4 && HPATK_up > 2) { button4.Image = CardDB[HPATK_up].MagicCardcode_HP; }
+                                if (HPATK_up == 5) { button4.Image = CardDB[HPATK_up].MagicCardcode_HP; }
+                                Handbool4 = 1; Magicbool4 = 2;
                                 Magicstatus[3].Magic_status = CardDB[HPATK_up].MagicHP;
-                                label7.Text = "" + CardDB[HPATK_up].MagicHP; label8.Text = "";
+                                label7.Text = ""; label8.Text = "" + CardDB[HPATK_up].MagicHP;
                                 Info_Card[3].Info_Hand += "\r\n체력 증가 : " + CardDB[HPATK_up].MagicHP;
                             }
                         }
                     }
                     if (Handbool5 == 0 && CardDB[j].keycode == mycard5)
                     {
-                        if(CardChoice5 <= 6)
+                        if(CardChoice5 <= 4)
                         {
                             button5.Image = CardDB[j].MonsterCardcode; Handbool5 = 1;
                             label9.Text = "" + CardDB[j].HP; label10.Text = "" + CardDB[j].ATK;
                             Mycardstatus[4].MyHP_status = CardDB[j].HP; Mycardstatus[4].MyATK_status = CardDB[j].ATK;
                         }
-                        if(CardChoice5 >= 7)
+                        if(CardChoice5 >= 5)
                         {
-                            int MagicChoice5 = Magic_point.Next(0, 9), HPATK_up = Magic_point.Next(1, 5);
+                            int MagicChoice5 = Magic_point.Next(0, 9), HPATK_up = Magic_point.Next(1, 6);
                             if (MagicChoice5 <= 4)
                             {
-                                button5.Image = CardDB[HPATK_up].MagicCardcode; Handbool5 = 1; Magicbool5 = 1;
+                                if (HPATK_up <= 2) { button5.Image = CardDB[HPATK_up].MagicCardcode_ATK; }
+                                if (HPATK_up <= 4 && HPATK_up > 2) { button5.Image = CardDB[HPATK_up].MagicCardcode_ATK; }
+                                if (HPATK_up == 5) { button5.Image = CardDB[HPATK_up].MagicCardcode_ATK; }
+                                Handbool5 = 1; Magicbool5 = 1;
                                 Magicstatus[4].Magic_status = CardDB[HPATK_up].MagicATK;
                                 label9.Text = ""; label10.Text = "" + CardDB[HPATK_up].MagicATK;
                                 Info_Card[4].Info_Hand += "\r\n공격력 증가 : " + CardDB[HPATK_up].MagicATK;
                             }
                             if(MagicChoice5 >= 5)
                             {
-                                button5.Image = CardDB[HPATK_up].MagicCardcode; Handbool5 = 1; Magicbool5 = 2;
+                                if (HPATK_up <= 2) { button5.Image = CardDB[HPATK_up].MagicCardcode_HP; }
+                                if (HPATK_up <= 4 && HPATK_up > 2) { button5.Image = CardDB[HPATK_up].MagicCardcode_HP; }
+                                if (HPATK_up == 5) { button5.Image = CardDB[HPATK_up].MagicCardcode_HP; }
+                                Handbool5 = 1; Magicbool5 = 2;
                                 Magicstatus[4].Magic_status = CardDB[HPATK_up].MagicHP;
-                                label9.Text = "" + CardDB[HPATK_up].MagicHP; label10.Text = "";
+                                label9.Text = ""; label10.Text = "" + CardDB[HPATK_up].MagicHP;
                                 Info_Card[4].Info_Hand += "\r\n체력 증가 : " + CardDB[HPATK_up].MagicHP;
                             }
                         }
@@ -350,11 +554,24 @@ namespace C3_Form_testing
             }
         }
         private void End_button(object sender, MouseEventArgs e)
-        {
-            DeleteCardcount = 3;
-            button12.Text = "카드 버리기\r\n3/3"; textBox1.Text = "상대가 필드에 카드를 배치합니다";
+        {// 11 - 21 : 사각형 그리기를 통해 필드 카드끼리 전투하는 구간을 나눔
+        Rectangle[] FildRectangle ={ new Rectangle(pictureBox1.Location.X - 2, pictureBox1.Location.Y - 2, 163, 225),
+                       /* 1 */           new Rectangle(pictureBox2.Location.X - 2, pictureBox2.Location.Y - 2, 163, 225),
+                       /* 2 */           new Rectangle(pictureBox3.Location.X - 2, pictureBox3.Location.Y - 2, 163, 225),
+                       /* 3 */           new Rectangle(pictureBox4.Location.X - 2, pictureBox4.Location.Y - 2, 163, 225),
+                       /* 4 */           new Rectangle(pictureBox5.Location.X - 2, pictureBox5.Location.Y - 2, 163, 225),
+                       /* 5 */           new Rectangle(pictureBox6.Location.X - 2, pictureBox6.Location.Y - 2, 163, 225),
+                       /* 6 */           new Rectangle(pictureBox7.Location.X - 2, pictureBox7.Location.Y - 2, 163, 225),
+                       /* 7 */           new Rectangle(pictureBox8.Location.X - 2, pictureBox8.Location.Y - 2, 163, 225),
+                       /* 8 */           new Rectangle(pictureBox9.Location.X - 2, pictureBox9.Location.Y - 2, 163, 225),
+                       /* 9 */           new Rectangle(pictureBox10.Location.X - 2, pictureBox10.Location.Y - 2, 163, 225),};
+            DeleteCardcount = 3; BattleRectangle = 2; BattlePhase = 1;
+            button12.Text = "카드 버리기\r\n3/3"; textBox1.Text = "상대가 필드에 카드를 배치합니다\r\n";
             if (e.Button == MouseButtons.Left && button11.Visible == true)
             {
+                Graphics g = CreateGraphics(); 
+                Pen penGray = new Pen(Color.LightGray, 10); Pen penViolet = new Pen(Color.DarkViolet, 10);
+                Pen penRed = new Pen(Color.Red, 10); Pen penGreen = new Pen(Color.LightGreen, 10);
                 button11.Visible = false; button20.Visible = false; button12.Visible = false;
                 button6.Visible = false; button7.Visible = false; button8.Visible = false;
                 button9.Visible = false; button10.Visible = false;
@@ -409,26 +626,58 @@ namespace C3_Form_testing
                         }
                     }
                 }
-                Delay(3000);
-                textBox1.Text = ""; textBox1.Text += "전투 시작!\r\n";
+                Delay10s();
+                for(int i = 0; i <= 5; i++)
+                {
+                    textBox1.Text += "."; Delay05s();
+                }
+                textBox1.Text += "\r\n카드 배치가 끝났습니다!"; 
+                Delay(2000);
+                textBox1.Text = ""; textBox1.Text += "전투 시작!\r\n"; Delay15s();
+                BattleRectangle = 1; if (BattleRectangle == 1)
+                { g.DrawRectangle(penGray, FildRectangle[0]); g.DrawRectangle(penGray, FildRectangle[5]); Delay07s(); }
                 if (Fildbool1 == 0 && AiFildbool1 == 1)
                 {
-                    MyHp -= Aicardstatus[0].AiATK_status; label31.Text = "" + MyHp;
+                    g.DrawRectangle(penRed, FildRectangle[0]); g.DrawRectangle(penGreen, FildRectangle[5]); Delay07s();
+                    MyHp -= Aicardstatus[0].AiATK_status; label31.Text = "MyHP : " + MyHp; HP_bar_Change();
                     textBox1.Text += "\r\n첫번째 칸 적몬스터 -> 내생명" + Aicardstatus[0].AiATK_status + "피해\r\n";
                 }
-                if (AiFildbool1 == 0 && AiFildbool1 == 0)
+                if (AiFildbool1 == 0 && Fildbool1 == 1)
                 {
-                    AiHp -= MyFild_status[0].FildATK_status; label32.Text = "" + AiHp;
+                    g.DrawRectangle(penGreen, FildRectangle[0]); g.DrawRectangle(penRed, FildRectangle[5]); Delay07s();
+                    AiHp -= MyFild_status[0].FildATK_status; label32.Text = "AiHP : " + AiHp; HP_bar_Change();
                     textBox1.Text += "\r\n첫번째 칸 내몬스터 -> 적생명 " + MyFild_status[0].FildATK_status + "피해\r\n";
                 }
-                if (Fildbool1 == 1 && AiFildbool1 == 1)
-                {
-                    MyFild_status[0].FildHP_status -= Aicardstatus[0].AiATK_status;
-                    Aicardstatus[0].AiHP_status -= MyFild_status[0].FildATK_status;
+                if (Fildbool1 == 1 && AiFildbool1 == 1)// 중요 - 0.5 일경우 0이 됨
+                {// 11 - 22 체력과 공격력을 비교하여 공격력이 높을경우 와 같거나 낮을경우를 나누어서 데미지 반감을 구현
+                    int HPATK_Check1 = 0;
+                    if (Aicardstatus[0].AiATK_status > MyFild_status[0].FildHP_status)
+                    {
+                        g.DrawRectangle(penRed, FildRectangle[0]); g.DrawRectangle(penGreen, FildRectangle[5]); Delay07s();
+                        MyFild_status[0].FildHP_status -= Aicardstatus[0].AiATK_status;
+                        Aicardstatus[0].AiHP_status -= MyFild_status[0].FildATK_status / 2;
+                        textBox1.Text += "\r\nAi의 공격력이 높습니다!"; HPATK_Check1 = 1;
+                        textBox1.Text += "\r\n첫번째 칸 적몬스터 -> 내몬스터 " + Aicardstatus[0].AiATK_status + "피해";
+                        textBox1.Text += "\r\n첫번째 칸 내몬스터 -> 적몬스터 " + MyFild_status[0].FildATK_status / 2 + "피해\r\n";
+                    }
+                    else if (MyFild_status[0].FildATK_status > Aicardstatus[0].AiHP_status)
+                    {
+                        g.DrawRectangle(penGreen, FildRectangle[0]); g.DrawRectangle(penRed, FildRectangle[5]); Delay07s();
+                        MyFild_status[0].FildHP_status -= Aicardstatus[0].AiATK_status / 2;
+                        Aicardstatus[0].AiHP_status -= MyFild_status[0].FildATK_status;
+                        textBox1.Text += "\r\n나의 공격력이 높습니다!"; HPATK_Check1 = 1;
+                        textBox1.Text += "\r\n첫번째 칸 적몬스터 -> 내몬스터 " + Aicardstatus[0].AiATK_status / 2 + "피해";
+                        textBox1.Text += "\r\n첫번째 칸 내몬스터 -> 적몬스터 " + MyFild_status[0].FildATK_status + "피해\r\n";
+                    }
+                    if (HPATK_Check1 == 0)
+                    {
+                        MyFild_status[0].FildHP_status -= Aicardstatus[0].AiATK_status;
+                        Aicardstatus[0].AiHP_status -= MyFild_status[0].FildATK_status;
+                        textBox1.Text += "\r\n첫번째 칸 적몬스터 -> 내몬스터 " + Aicardstatus[0].AiATK_status + "피해";
+                        textBox1.Text += "\r\n첫번째 칸 내몬스터 -> 적몬스터 " + MyFild_status[0].FildATK_status + "피해\r\n";
+                    }
                     label11.Text = "" + MyFild_status[0].FildHP_status;
                     label21.Text = "" + Aicardstatus[0].AiHP_status;
-                    textBox1.Text += "\r\n첫번째 칸 적몬스터 -> 내몬스터 " + Aicardstatus[0].AiATK_status + "피해";
-                    textBox1.Text += "\r\n첫번째 칸 내몬스터 -> 적몬스터 " + MyFild_status[0].FildATK_status + "피해\r\n";
                     if (MyFild_status[0].FildHP_status <= 0)
                     {
                         pictureBox1.Image = NullCard; Info_Card[0].Info_Fild = ""; Fildbool1 = 0;
@@ -439,25 +688,55 @@ namespace C3_Form_testing
                         pictureBox6.Image = NullCard; AiFildbool1 = 0;
                         label21.Text = ""; label22.Text = ""; 
                     }
+                    Delay07s(); HPATK_Check1 = 0;
+                }
+                BattleRectangle = 2; if (BattleRectangle == 2)
+                {
+                    g.DrawRectangle(penViolet, FildRectangle[0]); g.DrawRectangle(penViolet, FildRectangle[5]);
+                    g.DrawRectangle(penGray, FildRectangle[1]); g.DrawRectangle(penGray, FildRectangle[6]); Delay07s();
                 }
                 if (Fildbool2 == 0 && AiFildbool2 == 1)
                 {
-                    MyHp -= Aicardstatus[1].AiATK_status; label31.Text = "MyHP : " + MyHp;
+                    g.DrawRectangle(penRed, FildRectangle[1]); g.DrawRectangle(penGreen, FildRectangle[6]); Delay07s();
+                    MyHp -= Aicardstatus[1].AiATK_status; label31.Text = "MyHP : " + MyHp; HP_bar_Change();
                     textBox1.Text += "\r\n두번째 칸 적몬스터 -> 내생명 " + Aicardstatus[1].AiATK_status + "피해\r\n";
                 }
-                if (AiFildbool2 == 1 && Fildbool2 == 0)
+                if (AiFildbool2 == 0 && Fildbool2 == 1)
                 {
-                    AiHp -= MyFild_status[1].FildATK_status; label32.Text = "AiHP : " + AiHp;
+                    g.DrawRectangle(penGreen, FildRectangle[1]); g.DrawRectangle(penRed, FildRectangle[6]); Delay07s();
+                    AiHp -= MyFild_status[1].FildATK_status; label32.Text = "AiHP : " + AiHp; HP_bar_Change();
                     textBox1.Text += "\r\n두번째 칸 내몬스터 -> 적생명 " + MyFild_status[1].FildATK_status + "피해\r\n";
                 }
                 if (Fildbool2 == 1 && AiFildbool2 == 1)
                 {
-                    MyFild_status[1].FildHP_status -= Aicardstatus[1].AiATK_status;
-                    Aicardstatus[1].AiHP_status -= MyFild_status[1].FildATK_status;
+                    int HPATK_Check2 = 0;
+                    if (Aicardstatus[1].AiATK_status > MyFild_status[1].FildHP_status)
+                    {
+                        g.DrawRectangle(penRed, FildRectangle[1]); g.DrawRectangle(penGreen, FildRectangle[6]); Delay07s();
+                        MyFild_status[1].FildHP_status -= Aicardstatus[1].AiATK_status;
+                        Aicardstatus[1].AiHP_status -= MyFild_status[1].FildATK_status / 2;
+                        textBox1.Text += "\r\nAi의 공격력이 높습니다!"; HPATK_Check2 = 1;
+                        textBox1.Text += "\r\n두번째 칸 적몬스터 -> 내몬스터 " + Aicardstatus[1].AiATK_status + "피해";
+                        textBox1.Text += "\r\n두번째 칸 내몬스터 -> 적몬스터 " + MyFild_status[1].FildATK_status / 2 + "피해\r\n";
+                    }
+                    else if (MyFild_status[1].FildATK_status > Aicardstatus[1].AiATK_status)
+                    {
+                        g.DrawRectangle(penGreen, FildRectangle[1]); g.DrawRectangle(penRed, FildRectangle[6]); Delay07s();
+                        MyFild_status[1].FildHP_status -= Aicardstatus[1].AiATK_status / 2;
+                        Aicardstatus[1].AiHP_status -= MyFild_status[1].FildATK_status;
+                        textBox1.Text += "\r\n나의 공격력이 높습니다!"; HPATK_Check2 = 1;
+                        textBox1.Text += "\r\n두번째 칸 적몬스터 -> 내몬스터 " + Aicardstatus[1].AiATK_status / 2 + "피해";
+                        textBox1.Text += "\r\n두번째 칸 내몬스터 -> 적몬스터 " + MyFild_status[1].FildATK_status + "피해\r\n";
+                    }
+                    if(HPATK_Check2 == 0)
+                    {
+                        MyFild_status[1].FildHP_status -= Aicardstatus[1].AiATK_status;
+                        Aicardstatus[1].AiHP_status -= MyFild_status[1].FildATK_status;
+                        textBox1.Text += "\r\n두번째 칸 적몬스터 -> 내몬스터 " + Aicardstatus[1].AiATK_status + "피해";
+                        textBox1.Text += "\r\n두번째 칸 내몬스터 -> 적몬스터 " + MyFild_status[1].FildATK_status + "피해\r\n";
+                    }
                     label13.Text = "" + MyFild_status[1].FildHP_status;
                     label23.Text = "" + Aicardstatus[1].AiHP_status;
-                    textBox1.Text += "\r\n두번째 칸 적몬스터 -> 내몬스터 " + Aicardstatus[1].AiATK_status + "피해";
-                    textBox1.Text += "\r\n두번째 칸 내몬스터 -> 적몬스터 " + MyFild_status[1].FildATK_status + "피해\r\n";
                     if (MyFild_status[1].FildHP_status <= 0)
                     {
                         pictureBox2.Image = NullCard; Info_Card[1].Info_Fild = ""; Fildbool2 = 0;
@@ -468,25 +747,55 @@ namespace C3_Form_testing
                         pictureBox7.Image = NullCard; AiFildbool2 = 0;
                         label23.Text = ""; label24.Text = "";
                     }
+                    Delay07s(); HPATK_Check2 = 0;
+                }
+                BattleRectangle = 3; if (BattleRectangle == 3)
+                {
+                    g.DrawRectangle(penViolet, FildRectangle[1]); g.DrawRectangle(penViolet, FildRectangle[6]);
+                    g.DrawRectangle(penGray, FildRectangle[2]); g.DrawRectangle(penGray, FildRectangle[7]); Delay07s();
                 }
                 if (Fildbool3 == 0 && AiFildbool3 == 1)
                 {
-                    MyHp -= Aicardstatus[2].AiATK_status; label31.Text = "MyHP : " + MyHp;
+                    g.DrawRectangle(penRed, FildRectangle[2]); g.DrawRectangle(penGreen, FildRectangle[7]); Delay07s();
+                    MyHp -= Aicardstatus[2].AiATK_status; label31.Text = "MyHP : " + MyHp; HP_bar_Change();
                     textBox1.Text += "\r\n세번째 칸 적몬스터 -> 내생명 " + Aicardstatus[2].AiATK_status + "피해\r\n";
                 }
                 if (AiFildbool3 == 0 && Fildbool3 == 1)
                 {
-                    AiHp -= MyFild_status[2].FildATK_status; label32.Text = "AiHP : " + AiHp;
+                    g.DrawRectangle(penGreen, FildRectangle[2]); g.DrawRectangle(penRed, FildRectangle[7]); Delay07s();
+                    AiHp -= MyFild_status[2].FildATK_status; label32.Text = "AiHP : " + AiHp; HP_bar_Change();
                     textBox1.Text += "\r\n세번째 칸 내몬스터 -> 적생명 " + MyFild_status[2].FildATK_status + "피해\r\n";
                 }
                 if (Fildbool3 == 1 && AiFildbool3 == 1)
                 {
-                    MyFild_status[2].FildHP_status -= Aicardstatus[2].AiATK_status;
-                    Aicardstatus[2].AiHP_status -= MyFild_status[2].FildATK_status;
+                    int HPATK_Check3 = 0;
+                    if (Aicardstatus[2].AiATK_status > MyFild_status[2].FildHP_status)
+                    {
+                        g.DrawRectangle(penRed, FildRectangle[2]); g.DrawRectangle(penGreen, FildRectangle[7]); Delay07s();
+                        MyFild_status[2].FildHP_status -= Aicardstatus[2].AiATK_status;
+                        Aicardstatus[2].AiHP_status -= MyFild_status[2].FildATK_status / 2;
+                        textBox1.Text += "\r\nAi의 공격력이 높습니다!"; HPATK_Check3 = 1;
+                        textBox1.Text += "\r\n세번째 칸 적몬스터 -> 내몬스터 " + Aicardstatus[2].AiATK_status + "피해";
+                        textBox1.Text += "\r\n세번째 칸 내몬스터 -> 적몬스터 " + MyFild_status[2].FildATK_status / 2 + "피해\r\n";
+                    }
+                    else if (MyFild_status[2].FildATK_status > Aicardstatus[2].AiATK_status)
+                    {
+                        g.DrawRectangle(penGreen, FildRectangle[2]); g.DrawRectangle(penRed, FildRectangle[7]); Delay07s();
+                        MyFild_status[2].FildHP_status -= Aicardstatus[2].AiATK_status / 2;
+                        Aicardstatus[2].AiHP_status -= MyFild_status[2].FildATK_status;
+                        textBox1.Text += "\r\n나의 공격력이 높습니다!"; HPATK_Check3 = 1;
+                        textBox1.Text += "\r\n세번째 칸 적몬스터 -> 내몬스터 " + Aicardstatus[2].AiATK_status / 2 + "피해";
+                        textBox1.Text += "\r\n세번째 칸 내몬스터 -> 적몬스터 " + MyFild_status[2].FildATK_status + "피해\r\n";
+                    }
+                    if(HPATK_Check3 == 0)
+                    {
+                        MyFild_status[2].FildHP_status -= Aicardstatus[2].AiATK_status;
+                        Aicardstatus[2].AiHP_status -= MyFild_status[2].FildATK_status;
+                        textBox1.Text += "\r\n세번째 칸 적몬스터 -> 내몬스터 " + Aicardstatus[2].AiATK_status + "피해";
+                        textBox1.Text += "\r\n세번째 칸 내몬스터 -> 적몬스터 " + MyFild_status[2].FildATK_status + "피해\r\n";
+                    }
                     label15.Text = "" + MyFild_status[2].FildHP_status;
                     label25.Text = "" + Aicardstatus[2].AiHP_status;
-                    textBox1.Text += "\r\n세번째 칸 적몬스터 -> 내몬스터 " + Aicardstatus[2].AiATK_status + "피해";
-                    textBox1.Text += "\r\n세번째 칸 내몬스터 -> 적몬스터 " + MyFild_status[2].FildATK_status + "피해\r\n";
                     if (MyFild_status[2].FildHP_status <= 0)
                     {
                         pictureBox3.Image = NullCard; Info_Card[2].Info_Fild = ""; Fildbool3 = 0;
@@ -497,25 +806,55 @@ namespace C3_Form_testing
                         pictureBox8.Image = NullCard; AiFildbool3 = 0;
                         label25.Text = ""; label26.Text = ""; 
                     }
+                    Delay07s(); HPATK_Check3 = 0;
+                }
+                BattleRectangle = 4; if (BattleRectangle == 4)
+                {
+                    g.DrawRectangle(penViolet, FildRectangle[2]); g.DrawRectangle(penViolet, FildRectangle[7]);
+                    g.DrawRectangle(penGray, FildRectangle[3]); g.DrawRectangle(penGray, FildRectangle[8]); Delay07s();
                 }
                 if (Fildbool4 == 0 && AiFildbool4 == 1)
                 {
-                    MyHp -= Aicardstatus[3].AiATK_status; label31.Text = "MyHP : " + MyHp;
+                    g.DrawRectangle(penRed, FildRectangle[3]); g.DrawRectangle(penGreen, FildRectangle[8]); Delay07s();
+                    MyHp -= Aicardstatus[3].AiATK_status; label31.Text = "MyHP : " + MyHp; HP_bar_Change();
                     textBox1.Text += "\r\n네번째 칸 적몬스터 -> 내생명 " + Aicardstatus[3].AiATK_status + "피해\r\n";
                 }
                 if (AiFildbool4 == 0 && Fildbool4 == 1)
                 {
-                    AiHp -= MyFild_status[3].FildATK_status; label32.Text = "AiHP : " + AiHp;
+                    g.DrawRectangle(penGreen, FildRectangle[3]); g.DrawRectangle(penRed, FildRectangle[8]); Delay07s();
+                    AiHp -= MyFild_status[3].FildATK_status; label32.Text = "AiHP : " + AiHp; HP_bar_Change();
                     textBox1.Text += "\r\n네번째 칸 내몬스터 -> 적생명 " + MyFild_status[3].FildATK_status + "피해\r\n";
                 }
                 if (Fildbool4 == 1 && AiFildbool4 == 1)
                 {
-                    MyFild_status[3].FildHP_status -= Aicardstatus[3].AiATK_status;
-                    Aicardstatus[3].AiHP_status -= MyFild_status[3].FildATK_status;
+                    int HPATK_Check4 = 0;
+                    if (Aicardstatus[3].AiATK_status > MyFild_status[3].FildHP_status)
+                    {
+                        g.DrawRectangle(penRed, FildRectangle[3]); g.DrawRectangle(penGreen, FildRectangle[8]); Delay07s();
+                        MyFild_status[3].FildHP_status -= Aicardstatus[3].AiATK_status;
+                        Aicardstatus[3].AiHP_status -= MyFild_status[3].FildATK_status / 2;
+                        textBox1.Text += "\r\nAi의 공격력이 높습니다!"; HPATK_Check4 = 1;
+                        textBox1.Text += "\r\n네번째 칸 적몬스터 -> 내몬스터 " + Aicardstatus[3].AiATK_status + "피해";
+                        textBox1.Text += "\r\n네번째 칸 내몬스터 -> 적몬스터 " + MyFild_status[3].FildATK_status / 2 + "피해\r\n";
+                    }
+                    else if (MyFild_status[3].FildATK_status > Aicardstatus[3].AiHP_status)
+                    {
+                        g.DrawRectangle(penGreen, FildRectangle[3]); g.DrawRectangle(penRed, FildRectangle[8]); Delay07s();
+                        MyFild_status[3].FildHP_status -= Aicardstatus[3].AiATK_status / 2;
+                        Aicardstatus[3].AiHP_status -= MyFild_status[3].FildATK_status;
+                        textBox1.Text += "\r\n나의 공격력이 높습니다!"; HPATK_Check4 = 1;
+                        textBox1.Text += "\r\n네번째 칸 적몬스터 -> 내몬스터 " + Aicardstatus[3].AiATK_status / 2 + "피해";
+                        textBox1.Text += "\r\n네번째 칸 내몬스터 -> 적몬스터 " + MyFild_status[3].FildATK_status + "피해\r\n";
+                    }
+                    if (HPATK_Check4 == 0)
+                    {
+                        MyFild_status[3].FildHP_status -= Aicardstatus[3].AiATK_status;
+                        Aicardstatus[3].AiHP_status -= MyFild_status[3].FildATK_status;
+                        textBox1.Text += "\r\n네번째 칸 적몬스터 -> 내몬스터 " + Aicardstatus[3].AiATK_status + "피해";
+                        textBox1.Text += "\r\n네번째 칸 내몬스터 -> 적몬스터 " + MyFild_status[3].FildATK_status + "피해\r\n";
+                    }
                     label17.Text = "" + MyFild_status[3].FildHP_status;
                     label27.Text = "" + Aicardstatus[3].AiHP_status;
-                    textBox1.Text += "\r\n네번째 칸 적몬스터 -> 내몬스터 " + Aicardstatus[3].AiATK_status + "피해";
-                    textBox1.Text += "\r\n네번째 칸 내몬스터 -> 적몬스터 " + MyFild_status[3].FildATK_status + "피해\r\n";
                     if (MyFild_status[3].FildHP_status <= 0)
                     {
                         pictureBox4.Image = NullCard; Info_Card[3].Info_Fild = ""; Fildbool4 = 0;
@@ -526,25 +865,55 @@ namespace C3_Form_testing
                         pictureBox9.Image = NullCard; AiFildbool4 = 0;
                         label27.Text = ""; label28.Text = ""; 
                     }
+                    Delay07s(); HPATK_Check4 = 0;
+                }
+                BattleRectangle = 5; if (BattleRectangle == 5)
+                {
+                    g.DrawRectangle(penViolet, FildRectangle[3]); g.DrawRectangle(penViolet, FildRectangle[8]);
+                    g.DrawRectangle(penGray, FildRectangle[4]); g.DrawRectangle(penGray, FildRectangle[9]); Delay07s();
                 }
                 if (Fildbool5 == 0 && AiFildbool5 == 1)
                 {
-                    MyHp -= Aicardstatus[4].AiATK_status; label31.Text = "MyHP : " + MyHp;
+                    g.DrawRectangle(penRed, FildRectangle[4]); g.DrawRectangle(penGreen, FildRectangle[9]); Delay07s();
+                    MyHp -= Aicardstatus[4].AiATK_status; label31.Text = "MyHP : " + MyHp; HP_bar_Change();
                     textBox1.Text += "\r\n다섯번째 칸 적몬스터 -> 내생명 " + Aicardstatus[4].AiATK_status + "피해\r\n";
                 }
                 if (AiFildbool5 == 0 && Fildbool5 == 1)
                 {
-                    AiHp -= MyFild_status[4].FildATK_status; label32.Text = "AiHP : " + AiHp;
+                    g.DrawRectangle(penGreen, FildRectangle[4]); g.DrawRectangle(penRed, FildRectangle[9]); Delay07s();
+                    AiHp -= MyFild_status[4].FildATK_status; label32.Text = "AiHP : " + AiHp; HP_bar_Change();
                     textBox1.Text += "\r\n다섯번째 칸 내몬스터 -> 적생명 " + MyFild_status[4].FildATK_status + "피해\r\n";
                 }
                 if (Fildbool5 == 1 && AiFildbool5 == 1)
                 {
-                    MyFild_status[4].FildHP_status -= Aicardstatus[4].AiATK_status;
-                    Aicardstatus[4].AiHP_status -= MyFild_status[4].FildATK_status;
+                    int HPATK_Check5 = 0;
+                    if (Aicardstatus[4].AiATK_status > MyFild_status[4].FildHP_status)
+                    {
+                        g.DrawRectangle(penRed, FildRectangle[4]); g.DrawRectangle(penGreen, FildRectangle[9]); Delay07s();
+                        MyFild_status[4].FildHP_status -= Aicardstatus[4].AiATK_status;
+                        Aicardstatus[4].AiHP_status -= MyFild_status[4].FildATK_status / 2;
+                        textBox1.Text += "\r\nAi의 공격력이 높습니다!"; HPATK_Check5 = 1;
+                        textBox1.Text += "\r\n다섯번째 칸 적몬스터 -> 내몬스터 " + Aicardstatus[4].AiATK_status + "피해";
+                        textBox1.Text += "\r\n다섯번째 칸 내몬스터 -> 적몬스터 " + MyFild_status[4].FildATK_status / 2 + "피해\r\n";
+                    }
+                    if (MyFild_status[4].FildATK_status > Aicardstatus[4].AiATK_status)
+                    {
+                        g.DrawRectangle(penGreen, FildRectangle[4]); g.DrawRectangle(penRed, FildRectangle[9]); Delay07s();
+                        MyFild_status[4].FildHP_status -= Aicardstatus[4].AiATK_status / 2;
+                        Aicardstatus[4].AiHP_status -= MyFild_status[4].FildATK_status;
+                        textBox1.Text += "\r\n나의 공격력이 높습니다!"; HPATK_Check5 = 1;
+                        textBox1.Text += "\r\n다섯번째 칸 적몬스터 -> 내몬스터 " + Aicardstatus[4].AiATK_status / 2 + "피해";
+                        textBox1.Text += "\r\n다섯번째 칸 내몬스터 -> 적몬스터 " + MyFild_status[4].FildATK_status + "피해\r\n";
+                    }
+                    if(HPATK_Check5 == 0)
+                    {
+                        MyFild_status[4].FildHP_status -= Aicardstatus[4].AiATK_status;
+                        Aicardstatus[4].AiHP_status -= MyFild_status[4].FildATK_status;
+                        textBox1.Text += "\r\n다섯번째 칸 적몬스터 -> 내몬스터 " + Aicardstatus[4].AiATK_status + "피해";
+                        textBox1.Text += "\r\n다섯번째 칸 내몬스터 -> 적몬스터 " + MyFild_status[4].FildATK_status + "피해\r\n";
+                    }
                     label19.Text = "" + MyFild_status[4].FildHP_status;
                     label29.Text = "" + Aicardstatus[4].AiHP_status;
-                    textBox1.Text += "\r\n다섯번째 칸 적몬스터 -> 내몬스터 " + Aicardstatus[4].AiATK_status + "피해";
-                    textBox1.Text += "\r\n다섯번째 칸 내몬스터 -> 적몬스터 " + MyFild_status[4].FildATK_status + "피해\r\n";
                     if (MyFild_status[4].FildHP_status <= 0)
                     {
                         pictureBox5.Image = NullCard; Info_Card[4].Info_Fild = ""; Fildbool5 = 0;
@@ -555,14 +924,16 @@ namespace C3_Form_testing
                         pictureBox10.Image = NullCard; AiFildbool5 = 0; 
                         label29.Text = ""; label30.Text = ""; 
                     }
+                    Delay07s(); HPATK_Check5 = 0;
                 }
-                textBox1.Text += "\r\n전투 종료!";
-                button6.Visible = true; button7.Visible = true; button8.Visible = true; 
+                this.Invalidate(); Delay10s();
+                textBox1.Text += "\r\n전투 종료!"; BattleRectangle = 0; BattlePhase = 0;
+                button6.Visible = true; button7.Visible = true; button8.Visible = true;
                 button9.Visible = true; button10.Visible = true; button20.Enabled = true;
                 button11.Visible = true; button12.Visible = true; button20.Visible = true;
                 button1.Visible = true; button2.Visible = true; button3.Visible = true;
                 button4.Visible = true; button5.Visible = true;
-                if(MyHp <= 0)
+                if (MyHp <= 0)
                 { MessageBox.Show("플레이어가 졌습니다!"); this.Close(); }
                 else if(AiHp <= 0)
                 { MessageBox.Show("인공지능이 졌습니다!"); this.Close(); }
@@ -735,9 +1106,11 @@ namespace C3_Form_testing
                 if (Fildbool1 == 1)
                 { button6.Text = "필드에 카드가 있습니다"; button6.Enabled = false; }
                 label11.Text = ""; label12.Text = ""; Fildbool1 = 0;
+                MyFild_status[0].FildHP_status = 0; MyFild_status[0].FildATK_status = 0;
                 Card_FildFull_Fildnull();
                 button12.Visible = true; pictureBox1.Image = NullCard;
                 textBox1.Text = "필드 첫번째 카드를 버리셨습니다";
+                textBox2.Text = Info_Card[0].Info_Fild = "";
                 button12.Text = "카드 버리기 \r\n" + --DeleteCardcount + "/3";
             }
         }
@@ -812,7 +1185,7 @@ namespace C3_Form_testing
                     }
                     if(Magicbool1 == 2)
                     {
-                        MyFild_status[1].FildATK_status += Magicstatus[0].Magic_status;
+                        MyFild_status[1].FildHP_status += Magicstatus[0].Magic_status;
                         label13.Text = "" + MyFild_status[1].FildHP_status;
                         textBox1.Text = "두번째 필드 카드에 체력" + Magicstatus[0].Magic_status + "를 더한다";
                         Info_Card[1].Info_Fild += "\r\n마법 카드 : 체력 " + Magicstatus[0].Magic_status + "증가";
@@ -825,7 +1198,7 @@ namespace C3_Form_testing
                 {
                     if (Magicbool2 == 1)
                     {
-                        MyFild_status[1].FildHP_status += Magicstatus[1].Magic_status;
+                        MyFild_status[1].FildATK_status += Magicstatus[1].Magic_status;
                         label14.Text = "" + MyFild_status[1].FildATK_status;
                         textBox1.Text = "두번째 필드 카드에 공격력 " + Magicstatus[1].Magic_status + "를 더한다";
                         Info_Card[1].Info_Fild += "\r\n마법 카드 : 공격력 " + Magicstatus[1].Magic_status + "증가";
@@ -908,9 +1281,11 @@ namespace C3_Form_testing
                 if (Fildbool2 == 1)
                 { button7.Text = "필드에 카드가 있습니다"; button7.Enabled = false; }
                 label13.Text = ""; label14.Text = ""; Fildbool2 = 0;
+                MyFild_status[1].FildHP_status = 0; MyFild_status[1].FildATK_status = 0;
                 Card_FildFull_Fildnull();
                 button12.Visible = true; pictureBox2.Image = NullCard;
                 textBox1.Text = "필드 두번째 카드를 버리셨습니다";
+                textBox2.Text = Info_Card[1].Info_Fild = "";
                 button12.Text = "카드 버리기 \r\n" + --DeleteCardcount + "/3";
             }
         }
@@ -1075,9 +1450,11 @@ namespace C3_Form_testing
                 if (Fildbool3 == 1)
                 { button8.Text = "필드에 카드가 있습니다"; button8.Enabled = false; }
                 label15.Text = ""; label16.Text = ""; Fildbool3 = 0;
+                MyFild_status[2].FildHP_status = 0; MyFild_status[2].FildATK_status = 0;
                 Card_FildFull_Fildnull();
                 button12.Visible = true; pictureBox3.Image = NullCard;
                 textBox1.Text = "필드 세번째 카드를 버리셨습니다";
+                textBox2.Text = Info_Card[2].Info_Fild = "";
                 button12.Text = "카드 버리기 \r\n" + --DeleteCardcount + "/3";
             }
         }
@@ -1243,9 +1620,11 @@ namespace C3_Form_testing
                 if (Fildbool4 == 1)
                 { button9.Text = "필드에 카드가 있습니다"; button9.Enabled = false; }
                 label17.Text = ""; label18.Text = ""; Fildbool4 = 0;
+                MyFild_status[3].FildHP_status = 0; MyFild_status[3].FildATK_status = 0;
                 Card_FildFull_Fildnull();
                 button12.Visible = true; pictureBox4.Image = NullCard;
                 textBox1.Text = "필드 네번째 카드를 버리셨습니다";
+                textBox2.Text = Info_Card[3].Info_Fild = "";
                 button12.Text = "카드 버리기 \r\n" + --DeleteCardcount + "/3";
             }
         }
@@ -1411,9 +1790,11 @@ namespace C3_Form_testing
                 if (Fildbool5 == 1)
                 { button10.Text = "필드에 카드가 있습니다"; button10.Enabled = false; }
                 label19.Text = ""; label20.Text = ""; Fildbool5 = 0;
+                MyFild_status[4].FildHP_status = 0; MyFild_status[4].FildATK_status = 0;
                 Card_FildFull_Fildnull();
                 button12.Visible = true; pictureBox5.Image = NullCard;
                 textBox1.Text = "필드 다섯번째 카드를 버리셨습니다";
+                textBox2.Text = Info_Card[4].Info_Fild = "";
                 button12.Text = "카드 버리기 \r\n" + --DeleteCardcount + "/3";
             }
         }
@@ -1436,10 +1817,11 @@ namespace C3_Form_testing
                 { Card_FildFull_Fildnull(); }
                 if (button12.Visible == false && e.Button == MouseButtons.Left && Handbool1 == 1)
                 {
-                    label1.Text = ""; label2.Text = ""; Handbool1 = 0;
+                    label1.Text = ""; label2.Text = ""; Handbool1 = 0; Magicbool1 = 0;
                     button12.Visible = true; button1.Enabled = true; button1.Image = NullCard;
                     textBox1.Text = "나의 패에 있는 첫번째 카드를 버리셨습니다";
                     button12.Text = "카드 버리기 \r\n" + --DeleteCardcount + "/3";
+                    textBox2.Text = Info_Card[0].Info_Hand = "";
                     Card_FildFull_Fildnull(); button12.Visible = true;
                 }
                 if (button12.Enabled == false && e.Button == MouseButtons.Left && Handbool1 == 0)
@@ -1465,10 +1847,11 @@ namespace C3_Form_testing
                 { Card_FildFull_Fildnull(); }
                 if (button12.Visible == false && e.Button == MouseButtons.Left && Handbool2 == 1)
                 {
-                    label3.Text = ""; label4.Text = ""; Handbool2 = 0;
+                    label3.Text = ""; label4.Text = ""; Handbool2 = 0; Magicbool2 = 0;
                     button12.Visible = true; button2.Enabled = true; button2.Image = NullCard;
                     textBox1.Text = "나의 패에 있는 두번째 카드를 버리셨습니다";
                     button12.Text = "카드 버리기 \r\n" + --DeleteCardcount + "/3";
+                    textBox2.Text = Info_Card[1].Info_Hand = "";
                     Card_FildFull_Fildnull(); button12.Visible = true;
                 }
                 if (button12.Enabled == false && e.Button == MouseButtons.Left && Handbool2 == 0)
@@ -1494,10 +1877,11 @@ namespace C3_Form_testing
             { Card_FildFull_Fildnull(); }
             if (button12.Visible == false && e.Button == MouseButtons.Left && Handbool3 == 1)
             {
-                label5.Text = ""; label6.Text = ""; Handbool3 = 0;
+                label5.Text = ""; label6.Text = ""; Handbool3 = 0; Magicbool3 = 0;
                 button12.Visible = true; button3.Enabled = true; button3.Image = NullCard;
                 textBox1.Text = "나의 패에 있는 세번째 카드를 버리셨습니다";
                 button12.Text = "카드 버리기 \r\n" + --DeleteCardcount + "/3";
+                textBox2.Text = Info_Card[2].Info_Hand = "";
                 Card_FildFull_Fildnull(); button12.Visible = true;
             }
             if (button12.Enabled == false && e.Button == MouseButtons.Left && Handbool3 == 0)
@@ -1522,10 +1906,11 @@ namespace C3_Form_testing
             { Card_FildFull_Fildnull(); }
             if (button12.Visible == false && e.Button == MouseButtons.Left && Handbool4 == 1)
             {
-                label7.Text = ""; label8.Text = ""; Handbool4 = 0;
+                label7.Text = ""; label8.Text = ""; Handbool4 = 0; Magicbool4 = 0;
                 button12.Visible = true; button4.Enabled = true; button4.Image = NullCard;
                 textBox1.Text = "나의 패에 있는 네번째 카드를 버리셨습니다";
                 button12.Text = "카드 버리기 \r\n" + --DeleteCardcount + "/3";
+                textBox2.Text = Info_Card[3].Info_Hand = "";
                 Card_FildFull_Fildnull(); button12.Visible = true;
             }
             if (button12.Enabled == false && e.Button == MouseButtons.Left && Handbool4 == 0)
@@ -1550,10 +1935,11 @@ namespace C3_Form_testing
             { Card_FildFull_Fildnull(); }
             if (button12.Visible == false && e.Button == MouseButtons.Left && Handbool5 == 1)
             {
-                label9.Text = ""; label10.Text = ""; Handbool5 = 0;
+                label9.Text = ""; label10.Text = ""; Handbool5 = 0; Magicbool5 = 0;
                 button12.Visible = true; button5.Enabled = true; button5.Image = NullCard;
                 textBox1.Text = "나의 패에 있는 다섯번째 카드를 버리셨습니다";
                 button12.Text = "카드 버리기 \r\n" + --DeleteCardcount + "/3";
+                textBox2.Text = Info_Card[4].Info_Hand = "";
                 Card_FildFull_Fildnull(); button12.Visible = true;
             }
             if (button12.Enabled == false && e.Button == MouseButtons.Left && Handbool5 == 0)
@@ -1561,50 +1947,67 @@ namespace C3_Form_testing
         }
         private void FlildCard_Info1(object sender, MouseEventArgs e)
         {
-            textBox2.Text = "첫번째 필드 카드 정보\r\n";
-            label33.Text = label11.Text; label34.Text = label12.Text;
-            pictureBox11.Image = pictureBox1.Image; textBox2.Text += Info_Card[0].Info_Fild;
-            button1.Enabled = true; button2.Enabled = true; button3.Enabled = true;
-            button4.Enabled = true; button5.Enabled = true;
+            if(BattlePhase == 0)
+            {
+                textBox2.Text = "첫번째 필드 카드 정보\r\n";
+                label33.Text = label11.Text; label34.Text = label12.Text;
+                pictureBox11.Image = pictureBox1.Image; textBox2.Text += Info_Card[0].Info_Fild;
+                button1.Enabled = true; button2.Enabled = true; button3.Enabled = true;
+                button4.Enabled = true; button5.Enabled = true;
+            }
         }
 
         private void FlildCard_Info2(object sender, MouseEventArgs e)
         {
-            textBox2.Text = "두번째 필드 카드 정보\r\n";
-            label33.Text = label13.Text; label34.Text = label14.Text;
-            pictureBox11.Image = pictureBox2.Image; textBox2.Text += Info_Card[1].Info_Fild;
-            button1.Enabled = true; button2.Enabled = true; button3.Enabled = true;
-            button4.Enabled = true; button5.Enabled = true;
+            if(BattlePhase == 0)
+            {
+                textBox2.Text = "두번째 필드 카드 정보\r\n";
+                label33.Text = label13.Text; label34.Text = label14.Text;
+                pictureBox11.Image = pictureBox2.Image; textBox2.Text += Info_Card[1].Info_Fild;
+                button1.Enabled = true; button2.Enabled = true; button3.Enabled = true;
+                button4.Enabled = true; button5.Enabled = true;
+            }
         }
         private void FlildCard_Info3(object sender, MouseEventArgs e)
         {
-            textBox2.Text = "세번째 필드 카드 정보\r\n";
-            label33.Text = label15.Text; label34.Text = label16.Text;
-            pictureBox11.Image = pictureBox3.Image; textBox2.Text += Info_Card[2].Info_Fild;
-            button1.Enabled = true; button2.Enabled = true; button3.Enabled = true; 
-            button4.Enabled = true; button5.Enabled = true;
+            if(BattlePhase == 0)
+            {
+                textBox2.Text = "세번째 필드 카드 정보\r\n";
+                label33.Text = label15.Text; label34.Text = label16.Text;
+                pictureBox11.Image = pictureBox3.Image; textBox2.Text += Info_Card[2].Info_Fild;
+                button1.Enabled = true; button2.Enabled = true; button3.Enabled = true;
+                button4.Enabled = true; button5.Enabled = true;
+            }
         }
         private void FlildCard_Info4(object sender, MouseEventArgs e)
         {
-            textBox2.Text = "네번째 필드 카드 정보\r\n";
-            label33.Text = label17.Text; label34.Text = label18.Text;
-            pictureBox11.Image = pictureBox4.Image; textBox2.Text += Info_Card[3].Info_Fild;
-            button1.Enabled = true; button2.Enabled = true; button3.Enabled = true; 
-            button4.Enabled = true; button5.Enabled = true;
+            if(BattlePhase == 0)
+            {
+                textBox2.Text = "네번째 필드 카드 정보\r\n";
+                label33.Text = label17.Text; label34.Text = label18.Text;
+                pictureBox11.Image = pictureBox4.Image; textBox2.Text += Info_Card[3].Info_Fild;
+                button1.Enabled = true; button2.Enabled = true; button3.Enabled = true;
+                button4.Enabled = true; button5.Enabled = true;
+            }
         }
         private void FlildCard_Info5(object sender, MouseEventArgs e)
         {
-            textBox2.Text = "다섯번째 필드 카드 정보\r\n";
-            label33.Text = label19.Text; label34.Text = label20.Text;
-            pictureBox11.Image = pictureBox5.Image; textBox2.Text += Info_Card[4].Info_Fild;
-            button1.Enabled = true; button2.Enabled = true; button3.Enabled = true; 
-            button4.Enabled = true; button5.Enabled = true;
+            if(BattlePhase == 0)
+            {
+                textBox2.Text = "다섯번째 필드 카드 정보\r\n";
+                label33.Text = label19.Text; label34.Text = label20.Text;
+                pictureBox11.Image = pictureBox5.Image; textBox2.Text += Info_Card[4].Info_Fild;
+                button1.Enabled = true; button2.Enabled = true; button3.Enabled = true;
+                button4.Enabled = true; button5.Enabled = true;
+            }
         }
         private void MagicClick(object sender, EventArgs e)
-        { Card_FildFull_Fildnull(); }
-        public Form1()
+        { if (BattlePhase == 0) { Card_FildFull_Fildnull(); if (button12.Visible == false) button12.Visible = true; } }
+
+        public Form1(Form5 form5)
         {
             InitializeComponent();
+            _Form5 = form5;
             //나의 손패 체력, 공격력
             label1.Parent = button1; label1.Location = new Point(38, 179);
             label2.Parent = button1; label2.Location = new Point(112, 179);

@@ -52,10 +52,46 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Form2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form2.Designer.cs">
+      <DependentUpon>Form2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form3.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form3.Designer.cs">
+      <DependentUpon>Form3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form4.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form4.Designer.cs">
+      <DependentUpon>Form4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form5.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form5.Designer.cs">
+      <DependentUpon>Form5.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form2.resx">
+      <DependentUpon>Form2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form3.resx">
+      <DependentUpon>Form3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form4.resx">
+      <DependentUpon>Form4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form5.resx">
+      <DependentUpon>Form5.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -79,36 +115,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\MagicCard1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\MagicCard2.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\MagicCard3.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\MagicCard4.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\MagicCard5.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\MagicCard6.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\MagicCard7.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\MagicCard8.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\MagicCard9.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\MagicCard10.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\nullCard.png" />
@@ -142,6 +148,132 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\MonsterCard10.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MagicCard_HP1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MagicCard_HP2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MagicCard_HP3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MagicCard_ATK1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MagicCard_ATK2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MagicCard_ATK3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Fild_button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\command_button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Easy_button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\nomal_button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Hard_button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\nullslot.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AIHP00.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MYHP00.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AIHP10.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AIHP30.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AIHP50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AIHP70.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AIHP100.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MYHP10.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MYHP30.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MYHP50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MYHP70.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MYHP100.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\optionbutton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\main.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\OPTION1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\button6.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TTI2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TTI3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TTI4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TTI1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TTI5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TTI6.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TTI8.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TTI9.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TTI10.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TTI7_1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TTI7_2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\button8.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\main_Start_1920.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\main_Start_1440.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
