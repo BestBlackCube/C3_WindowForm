@@ -14,6 +14,7 @@ using System.Threading; // 지연시간 추가
 using System.Timers;
 using System.Reflection.Emit;
 using System.Security.Permissions;
+using System.Xml.XPath;
 
 namespace C3_Form_testing
 {
@@ -21,6 +22,7 @@ namespace C3_Form_testing
     {
         public int Delay_Delete = 0;
         Form5 _Form5;
+
         private static DateTime Delay(int ms)
         {
             DateTime ThisMoment = DateTime.Now;
@@ -35,6 +37,7 @@ namespace C3_Form_testing
         private void Delay07s() { if (Delay_Delete == 0) { Delay(700); } }
         private void Delay10s() { if (Delay_Delete == 0) { Delay(1000); } }
         private void Delay15s() { if (Delay_Delete == 0) { Delay(1500); } }
+
         Random HP_point = new Random(); Random ATK_point = new Random();
         Random Card_Number = new Random(); Random Magic_point = new Random();
         public int MyHp = 50, AiHp = 50, DeleteCardcount = 3, GameLV, BattleRectangle = 0,
@@ -68,8 +71,9 @@ namespace C3_Form_testing
         {// 11 - 17 폼연결 프로토타입 ShowDialog가 아닌 Show로 하면 Form1과 2가 실행됨
             //Form2 F2 = new Form2(this, true); F2.Owner = this; F2.Show();
             label31.Text = "MyHp : 50"; label32.Text = "AiHp : 50"; textBox1.MaxLength = 100;
-        }
 
+        }
+        Boolean gameEnd = false;
         public void setSize(Boolean sizeInfo)
         {
             if (sizeInfo)
@@ -280,17 +284,23 @@ namespace C3_Form_testing
 
         }
 
+
+
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            DialogResult result = MessageBox.Show("정말 종료하시겠습니까?", "게임 종료", MessageBoxButtons.YesNo);
-            if (result != DialogResult.Yes)
+            if (!gameEnd)
             {
-                e.Cancel = true; // 종료를 취소하도록 설정
+                DialogResult result = MessageBox.Show("정말 종료하시겠습니까?", "게임 종료", MessageBoxButtons.YesNo);
+                if (result != DialogResult.Yes)
+                {
+                    e.Cancel = true; // 종료를 취소하도록 설정
+                }
+                else
+                {
+                    _Form5.Close();
+                }
             }
-            else
-            {
-                _Form5.Close();
-            }
+            else _Form5.Close();
         }
 
         public void buttonTrue_False()
@@ -934,9 +944,9 @@ namespace C3_Form_testing
                 button1.Visible = true; button2.Visible = true; button3.Visible = true;
                 button4.Visible = true; button5.Visible = true;
                 if (MyHp <= 0)
-                { MessageBox.Show("플레이어가 졌습니다!"); this.Close(); }
+                { MessageBox.Show("플레이어가 졌습니다!"); gameEnd = true; this.Close(); }
                 else if(AiHp <= 0)
-                { MessageBox.Show("인공지능이 졌습니다!"); this.Close(); }
+                { MessageBox.Show("인공지능이 졌습니다!"); gameEnd = true; this.Close(); }
             }
         }
         private void CardAdd1_button(object sender, MouseEventArgs e)
